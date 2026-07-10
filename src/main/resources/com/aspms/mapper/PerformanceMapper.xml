@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspms.mapper.PerformanceMapper">
+
+	<!-- 添加绩效考核信息 -->
+    <insert id="doAddPerformanceInfo" parameterType="Performance">
+		insert into `t_performance`(`uid`,`period`,`result`,`status`,`appeal`,`utime`) values (#{uid},#{period},#{result},#{status},#{appeal},#{utime})
+	</insert>
+
+	<!-- 修改绩效考核信息 -->
+	<update id="doModifyPerformanceInfo" parameterType="Performance">
+		update `t_performance` set `uid`=#{uid},`period`=#{period},`result`=#{result},`status`=#{status},`appeal`=#{appeal},`utime`=#{utime} where `pfmcid`=#{pfmcid}
+	</update>
+
+	<!-- 删除绩效考核信息 -->
+	<delete id="doDeletePerformanceInfo" parameterType="Performance">
+		delete from `t_performance` where `pfmcid`=#{pfmcid}
+	</delete>
+
+	<!-- 获取绩效考核信息 -->
+	<select id="doGetPerformanceInfo" parameterType="Performance" resultType="Performance">
+		select * from `t_performance` where `pfmcid`=#{pfmcid} or `uid`=#{uid}
+	</select>
+
+	<!-- 获取绩效考核列表 -->
+	<select id="doGetPerformanceInfoList" resultType="Performance">
+		select * from `t_performance`
+	</select>
+
+	<!-- 获取绩效考核列表 -->
+	<select id="doGetPerformanceInfoListByuid" resultType="Performance">
+		select * from `t_performance` where `uid`=#{uid}
+	</select>
+
+	<!-- 查询绩效考核列表 -->
+	<select id="doQueryPerformanceInfoList" parameterType="Performance" resultType="Performance">
+		select * from `t_performance` where `pfmcid` like #{pfmcid} or `uid` like #{uid} or `period` like #{period} or `result` like #{result} or `status` like #{status} or `utime` like #{utime}
+	</select>
+
+</mapper>

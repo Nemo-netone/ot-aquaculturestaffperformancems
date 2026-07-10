@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspms.mapper.NoticeMapper">
+
+	<!-- 添加公告信息 -->
+    <insert id="doAddNoticeInfo" parameterType="Notice">
+		insert into `t_notice`(`title`,`notice`,`ctime`,`operator`) values (#{title},#{notice},#{ctime},#{operator})
+	</insert>
+
+	<!-- 修改公告信息 -->
+	<update id="doModifyNoticeInfo" parameterType="Notice">
+		update `t_notice` set `title`=#{title},`notice`=#{notice},`ctime`=#{ctime},`operator`=#{operator} where `nid`=#{nid}
+	</update>
+
+	<!-- 删除公告信息 -->
+	<delete id="doDeleteNoticeInfo" parameterType="Notice">
+		delete from `t_notice` where `nid`=#{nid}
+	</delete>
+
+	<!-- 获取公告信息 -->
+	<select id="doGetNoticeInfo" parameterType="Notice" resultType="Notice">
+		select * from `t_notice` where `nid`=#{nid} or `title`=#{title}
+	</select>
+
+	<!-- 获取公告列表 -->
+	<select id="doGetNoticeInfoList" resultType="Notice">
+		select * from `t_notice`
+	</select>
+
+	<!-- 查询公告列表 -->
+	<select id="doQueryNoticeInfoList" parameterType="Notice" resultType="Notice">
+		select * from `t_notice` where `nid` like #{nid} or `title` like #{title} or `notice` like #{notice} or `ctime` like #{ctime} or `operator` like #{operator}
+	</select>
+
+</mapper>

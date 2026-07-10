@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspms.mapper.PositionMapper">
+
+	<!-- 添加养殖岗位信息 -->
+    <insert id="doAddPositionInfo" parameterType="Position">
+		insert into `t_position`(`did`,`pname`,`description`,`requirements`) values (#{did},#{pname},#{description},#{requirements})
+	</insert>
+
+	<!-- 修改养殖岗位信息 -->
+	<update id="doModifyPositionInfo" parameterType="Position">
+		update `t_position` set `did`=#{did},`pname`=#{pname},`description`=#{description},`requirements`=#{requirements} where `pid`=#{pid}
+	</update>
+
+	<!-- 删除养殖岗位信息 -->
+	<delete id="doDeletePositionInfo" parameterType="Position">
+		delete from `t_position` where `pid`=#{pid}
+	</delete>
+
+	<!-- 获取养殖岗位信息 -->
+	<select id="doGetPositionInfo" parameterType="Position" resultType="Position">
+		select * from `t_position` where `pid`=#{pid} or `did`=#{did}
+	</select>
+
+	<!-- 获取养殖岗位列表 -->
+	<select id="doGetPositionInfoList" resultType="Position">
+		select * from `t_position`
+	</select>
+
+	<!-- 获取养殖岗位列表 -->
+	<select id="doGetPositionInfoListBydid" resultType="Position">
+		select * from `t_position` where `did`=#{did}
+	</select>
+
+	<!-- 查询养殖岗位列表 -->
+	<select id="doQueryPositionInfoList" parameterType="Position" resultType="Position">
+		select * from `t_position` where `pid` like #{pid} or `did` like #{did} or `pname` like #{pname} or `description` like #{description} or `requirements` like #{requirements}
+	</select>
+
+</mapper>

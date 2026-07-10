@@ -1,0 +1,2 @@
+springboot项目正常启动即可。
+用户名和密码都是admin

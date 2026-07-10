@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspms.mapper.LiveMapper">
+
+	<!-- 添加生长指标信息 -->
+    <insert id="doAddLiveInfo" parameterType="Live">
+		insert into `t_live`(`data`,`remarks`,`operator`,`time`) values (#{data},#{remarks},#{operator},#{time})
+	</insert>
+
+	<!-- 修改生长指标信息 -->
+	<update id="doModifyLiveInfo" parameterType="Live">
+		update `t_live` set `data`=#{data},`remarks`=#{remarks},`operator`=#{operator},`time`=#{time} where `lid`=#{lid}
+	</update>
+
+	<!-- 删除生长指标信息 -->
+	<delete id="doDeleteLiveInfo" parameterType="Live">
+		delete from `t_live` where `lid`=#{lid}
+	</delete>
+
+	<!-- 获取生长指标信息 -->
+	<select id="doGetLiveInfo" parameterType="Live" resultType="Live">
+		select * from `t_live` where `lid`=#{lid}
+	</select>
+
+	<!-- 获取生长指标列表 -->
+	<select id="doGetLiveInfoList" resultType="Live">
+		select * from `t_live`
+	</select>
+
+	<!-- 获取生长指标列表 -->
+	<select id="doGetLiveInfoListByremarks" resultType="Live">
+		select * from `t_live` where `remarks`=#{remarks}
+	</select>
+
+
+	<!-- 查询生长指标列表 -->
+	<select id="doQueryLiveInfoList" parameterType="Live" resultType="Live">
+		select * from `t_live` where `lid` like #{lid} or `data` like #{data} or `remarks` like #{remarks} or `operator` like #{operator}
+	</select>
+
+</mapper>

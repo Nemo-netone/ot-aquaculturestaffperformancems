@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>水产人员绩效管理系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="loginView" class="login-shell">
+      <section class="login-visual" aria-label="系统概览">
+        <img src="./assets/banner.png" alt="水产养殖管理场景" />
+        <div class="login-copy">
+          <p>Cloudflare Pages + Worker API + Supabase</p>
+          <h1>水产人员绩效管理系统</h1>
+          <span>人员、任务、工作记录、绩效、奖惩和生长指标统一管理。</span>
+        </div>
+      </section>
+
+      <section class="login-panel">
+        <div class="brand">
+          <img src="./assets/logo-login.png" alt="" />
+          <div>
+            <strong>ASPMS</strong>
+            <span>Portfolio Demo</span>
+          </div>
+        </div>
+        <form id="loginForm" class="login-form">
+          <label>
+            账号
+            <input id="username" name="username" value="admin1" autocomplete="username" />
+          </label>
+          <label>
+            密码
+            <input id="password" name="password" value="admin123" type="password" autocomplete="current-password" />
+          </label>
+          <button type="submit">登录系统</button>
+          <p id="loginMessage" class="form-message" role="status"></p>
+        </form>
+        <div class="demo-accounts">
+          <button type="button" data-login="admin1/admin123">管理员 admin1</button>
+          <button type="button" data-login="admin/admin">员工 admin</button>
+          <button type="button" data-login="lisi/lisi123">员工 lisi</button>
+        </div>
+      </section>
+    </main>
+
+    <main id="appView" class="app-shell" hidden>
+      <aside class="sidebar">
+        <div class="brand compact">
+          <img src="./assets/logo-login.png" alt="" />
+          <div>
+            <strong>ASPMS</strong>
+            <span>水产绩效</span>
+          </div>
+        </div>
+        <nav id="moduleNav" class="module-nav" aria-label="功能导航"></nav>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p id="roleText">在线演示</p>
+            <h2 id="pageTitle">仪表盘</h2>
+          </div>
+          <div class="top-actions">
+            <button id="refreshButton" type="button">刷新</button>
+            <button id="logoutButton" type="button">退出</button>
+          </div>
+        </header>
+
+        <section id="dashboard" class="dashboard"></section>
+        <section id="modulePanel" class="module-panel" hidden>
+          <div class="panel-toolbar">
+            <div>
+              <h3 id="moduleTitle"></h3>
+              <p id="moduleSummary"></p>
+            </div>
+            <div class="toolbar-actions">
+              <input id="searchInput" placeholder="搜索当前列表" />
+              <button id="addButton" type="button">新增</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead id="tableHead"></thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <dialog id="editDialog" class="edit-dialog">
+      <form id="editForm" method="dialog">
+        <header>
+          <h3 id="dialogTitle">编辑</h3>
+          <button id="closeDialogButton" type="button" aria-label="关闭">×</button>
+        </header>
+        <div id="formFields" class="form-grid"></div>
+        <footer>
+          <button type="button" id="cancelEditButton">取消</button>
+          <button type="submit">保存</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" hidden></div>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>

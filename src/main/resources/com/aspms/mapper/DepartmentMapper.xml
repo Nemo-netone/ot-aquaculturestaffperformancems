@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspms.mapper.DepartmentMapper">
+
+	<!-- 添加养殖部门信息 -->
+    <insert id="doAddDepartmentInfo" parameterType="Department">
+		insert into `t_department`(`dname`,`description`,`ctime`,`operator`) values (#{dname},#{description},#{ctime},#{operator})
+	</insert>
+
+	<!-- 修改养殖部门信息 -->
+	<update id="doModifyDepartmentInfo" parameterType="Department">
+		update `t_department` set `dname`=#{dname},`description`=#{description},`ctime`=#{ctime},`operator`=#{operator} where `did`=#{did}
+	</update>
+
+	<!-- 删除养殖部门信息 -->
+	<delete id="doDeleteDepartmentInfo" parameterType="Department">
+		delete from `t_department` where `did`=#{did}
+	</delete>
+
+	<!-- 获取养殖部门信息 -->
+	<select id="doGetDepartmentInfo" parameterType="Department" resultType="Department">
+		select * from `t_department` where `did`=#{did} or `dname`=#{dname}
+	</select>
+
+	<!-- 获取养殖部门列表 -->
+	<select id="doGetDepartmentInfoList" resultType="Department">
+		select * from `t_department`
+	</select>
+
+	<!-- 查询养殖部门列表 -->
+	<select id="doQueryDepartmentInfoList" parameterType="Department" resultType="Department">
+		select * from `t_department` where `did` like #{did} or `dname` like #{dname} or `description` like #{description} or `ctime` like #{ctime} or `operator` like #{operator}
+	</select>
+
+</mapper>

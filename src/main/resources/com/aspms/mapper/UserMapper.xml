@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspms.mapper.UserMapper">
+
+    <!-- 登录员工信息 -->
+	<select id="doLoginUserInfo" parameterType="User" resultType="User">
+		select * from `t_user` where `username`=#{username} and `password`=#{password}
+	</select>
+
+    <!-- 注册员工信息 -->
+    <insert id="doRegisterUserInfo" parameterType="User">
+		insert into `t_user`(`did`,`pid`,`username`,`password`,`identify`,`name`,`sex`,`age`,`birthdate`,`idcard`,`phone`,'avatar') values (#{did},#{pid},#{username},#{password},#{identify},#{name},#{sex},#{age},#{birthdate},#{idcard},#{phone},#{avatar})
+	</insert>
+
+    <!-- 修改员工密码 -->
+	<update id="doModifyPasswordInfo" parameterType="User">
+		update `t_user` set `password`=#{identify} where `username`=#{username} and `password`=#{password}
+	</update>
+
+	<!-- 添加员工信息 -->
+    <insert id="doAddUserInfo" parameterType="User">
+		insert into `t_user`(`did`,`pid`,`username`,`password`,`identify`,`name`,`sex`,`age`,`birthdate`,`idcard`,`phone`,`avatar`) values (#{did},#{pid},#{username},#{password},#{identify},#{name},#{sex},#{age},#{birthdate},#{idcard},#{phone},#{avatar})
+	</insert>
+
+	<!-- 修改员工信息 -->
+	<update id="doModifyUserInfo" parameterType="User">
+		update `t_user` set `did`=#{did},`pid`=#{pid},`username`=#{username},`password`=#{password},`identify`=#{identify},`name`=#{name},`sex`=#{sex},`age`=#{age},`birthdate`=#{birthdate},`idcard`=#{idcard},`phone`=#{phone},`avatar`=#{avatar} where `uid`=#{uid}
+	</update>
+
+	<!-- 删除员工信息 -->
+	<delete id="doDeleteUserInfo" parameterType="User">
+		delete from `t_user` where `uid`=#{uid}
+	</delete>
+
+	<!-- 获取员工信息 -->
+	<select id="doGetUserInfo" parameterType="User" resultType="User">
+		select * from `t_user` where `uid`=#{uid} or `did`=#{did}
+	</select>
+
+	<!-- 获取员工列表 -->
+	<select id="doGetUserInfoList" resultType="User">
+		select * from `t_user`
+	</select>
+
+	<!-- 查询员工列表 -->
+	<select id="doQueryUserInfoList" parameterType="User" resultType="User">
+		select * from `t_user` where `uid` like #{uid} or `did` like #{did} or `pid` like #{pid} or `username` like #{username} or `password` like #{password} or `identify` like #{identify} or `name` like #{name} or `sex` like #{sex} or `birthdate` like #{birthdate} or `idcard` like #{idcard} or `phone` like #{phone}
+	</select>
+
+</mapper>

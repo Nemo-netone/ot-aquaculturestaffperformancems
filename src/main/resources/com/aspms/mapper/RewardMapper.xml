@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspms.mapper.RewardMapper">
+
+	<!-- 添加奖惩信息 -->
+    <insert id="doAddRewardInfo" parameterType="Reward">
+		insert into `t_reward`(`uid`,`reason`,`type`,`time`) values (#{uid},#{reason},#{type},#{time})
+	</insert>
+
+	<!-- 修改奖惩信息 -->
+	<update id="doModifyRewardInfo" parameterType="Reward">
+		update `t_reward` set `uid`=#{uid},`reason`=#{reason},`type`=#{type},`time`=#{time} where `rid`=#{rid}
+	</update>
+
+	<!-- 删除奖惩信息 -->
+	<delete id="doDeleteRewardInfo" parameterType="Reward">
+		delete from `t_reward` where `rid`=#{rid}
+	</delete>
+
+	<!-- 获取奖惩信息 -->
+	<select id="doGetRewardInfo" parameterType="Reward" resultType="Reward">
+		select * from `t_reward` where `rid`=#{rid} or `uid`=#{uid}
+	</select>
+
+	<!-- 获取奖惩列表 -->
+	<select id="doGetRewardInfoList" resultType="Reward">
+		select * from `t_reward`
+	</select>
+
+	<!-- 获取奖惩列表 -->
+	<select id="doGetRewardInfoListByuid" resultType="Reward">
+		select * from `t_reward` where `uid`=#{uid}
+	</select>
+
+	<!-- 查询奖惩列表 -->
+	<select id="doQueryRewardInfoList" parameterType="Reward" resultType="Reward">
+		select * from `t_reward` where `rid` like #{rid} or `uid` like #{uid} or `reason` like #{reason} or `type` like #{type} or `time` like #{time}
+	</select>
+
+</mapper>

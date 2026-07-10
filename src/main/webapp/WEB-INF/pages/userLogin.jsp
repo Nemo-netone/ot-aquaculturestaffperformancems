@@ -1,0 +1,128 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>养殖人员绩效管理系统 — 员工登录</title>
+    <link rel="stylesheet" href="static/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="static/css/backend-1.0.2.css">
+    <link rel="stylesheet" href="static/css/all.min.css">
+    <link rel="stylesheet" href="static/css/line-awesome.min.css">
+    <link rel="stylesheet" href="static/css/remixicon.css">
+    <link rel="stylesheet" href="static/css/dripicons.css">
+    <link rel='stylesheet' href='static/css/main.css'>
+    <link rel='stylesheet' href='static/css/main1.css'>
+    <link rel='stylesheet' href='static/css/main2.css'>
+    <link rel='stylesheet' href='static/css/main3.css'>
+    <link rel="stylesheet" href="static/css/mapbox-gl.css">
+    <link rel="stylesheet" href="static/css/sweetalert.css">
+</head>
+<body class=" ">
+<!-- loader Start -->
+<div id="loading">
+    <div id="loading-center">
+    </div>
+</div>
+<!-- loader END -->
+<div class="wrapper">
+    <section class="login-content">
+        <div class="container h-100">
+            <div class="row align-items-center justify-content-center h-100">
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <h2 class="mb-2">员工登录</h2>
+                            <p>欢迎登录养殖人员绩效管理系统</p>
+                            <form id="app">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="mb-0">用户名</label>
+                                            <input class="form-control" type="text" v-model="username" placeholder="请输入用户名" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="mb-0">登录密码</label>
+                                            <input class="form-control" type="password" v-model="password" placeholder="请输入登录密码" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-lg" @click="doSubmit">开始登录</button>
+                            </form>
+                        </div>
+                        <div class="col-lg-6 mb-lg-0 mb-4 mt-lg-0 mt-4">
+                            <img src="static/picture/013.png" class="img-fluid w-80" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- Backend Bundle JavaScript -->
+<script src="static/js/backend-bundle.min.js"></script>
+<!-- Flextree Javascript-->
+<!-- Table Treeview JavaScript -->
+<script src="static/js/table-treeview.js"></script>
+<!-- Masonary Gallery Javascript -->
+<!-- Mapbox Javascript -->
+<!-- Fullcalender Javascript -->
+<script src='static/js/main.js'></script>
+<script src='static/js/main1.js'></script>
+<script src='static/js/main2.js'></script>
+<script src='static/js/main3.js'></script>
+<!-- SweetAlert JavaScript -->
+<script src="static/js/sweetalert.min.js"></script>
+<!-- Vectoe Map JavaScript -->
+<script src="static/js/vector-map-custom.js"></script>
+<!-- slider JavaScript -->
+<script src="static/js/slider.js"></script>
+<!-- app JavaScript -->
+<script src="static/js/app.js"></script>
+<!-- Vue.js Vendors -->
+<script src="static/vendor/vue/vue.global.js"></script>
+<script src="static/vendor/vue/axios.min.js"></script>
+<!-- Custom Javascript -->
+<script>
+    //创建Vue实例
+    const app = Vue.createApp({
+        data() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            doSubmit(){
+                //检查输入
+                if(this.username.trim().length==0 || this.password.trim().length==0){
+                    swal("提示", "请先完善员工登录信息！", "warning");
+                    return;
+                }
+                //请求后端
+                axios.post("/api/user/login.do", {
+                    username: this.username,
+                    password: this.password,
+                }).then((response) => {
+                    // 判断结果
+                    if(JSON.parse(response.data.status)){
+                        //登录成功，跳转页面
+                        window.location.href="/index";
+                    } else {
+                        //登录失败
+                        swal("提示", "员工登录失败，请检查员工登录信息是否正确！", "error");
+                    }
+                }).catch((error) => {
+                    // 弹出错误信息
+                    swal('提示','网络请求失败，请稍后重试！', "error");
+                });
+            }
+        }
+    });
+    //挂载实例
+    app.mount('#app');
+</script>
+</body>
+</html>

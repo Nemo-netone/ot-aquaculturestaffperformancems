@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspms.mapper.TaskMapper">
+
+	<!-- 添加任务信息 -->
+    <insert id="doAddTaskInfo" parameterType="Task">
+		insert into `t_task`(`uid`,`description`,`stime`,`etime`,`status`,`completion`,`photo`,`operator`) values (#{uid},#{description},#{stime},#{etime},#{status},#{completion},#{photo},#{operator})
+	</insert>
+
+	<!-- 修改任务信息 -->
+	<update id="doModifyTaskInfo" parameterType="Task">
+		update `t_task` set `uid`=#{uid},`description`=#{description},`stime`=#{stime},`etime`=#{etime},`status`=#{status},`completion`=#{completion},`photo`=#{photo},`operator`=#{operator} where `tid`=#{tid}
+	</update>
+
+	<!-- 删除任务信息 -->
+	<delete id="doDeleteTaskInfo" parameterType="Task">
+		delete from `t_task` where `tid`=#{tid}
+	</delete>
+
+	<!-- 获取任务信息 -->
+	<select id="doGetTaskInfo" parameterType="Task" resultType="Task">
+		select * from `t_task` where `tid`=#{tid} or `uid`=#{uid}
+	</select>
+
+	<!-- 获取任务列表 -->
+	<select id="doGetTaskInfoList" resultType="Task">
+		select * from `t_task`
+	</select>
+
+	<!-- 获取任务列表 -->
+	<select id="doGetTaskInfoListByuid" resultType="Task">
+		select * from `t_task` where `uid`=#{uid}
+	</select>
+
+	<!-- 查询任务列表 -->
+	<select id="doQueryTaskInfoList" parameterType="Task" resultType="Task">
+		select * from `t_task` where `tid` like #{tid} or `uid` like #{uid} or `description` like #{description} or `stime` like #{stime} or `etime` like #{etime} or `status` like #{status} or `operator` like #{operator}
+	</select>
+
+</mapper>

@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: AquacultureStaffPerformanceMS
+  mvc:
+    view:
+      prefix: /WEB-INF/pages/
+      suffix: .jsp
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/aquaculturestaffperformancems?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: root
+    password:
+mybatis:
+  mapper-locations: classpath:com/aspms/mapper/*.xml
+  type-aliases-package: com.aspms.entity
+  configuration:
+    map-underscore-to-camel-case: true

@@ -1,0 +1,194 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title></title>
+    <link rel="stylesheet" href="static/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="static/css/backend-1.0.2.css">
+    <link rel="stylesheet" href="static/css/all.min.css">
+    <link rel="stylesheet" href="static/css/line-awesome.min.css">
+    <link rel="stylesheet" href="static/css/remixicon.css">
+    <link rel="stylesheet" href="static/css/dripicons.css">
+    <link rel='stylesheet' href='static/css/main.css'>
+    <link rel='stylesheet' href='static/css/main1.css'>
+    <link rel='stylesheet' href='static/css/main2.css'>
+    <link rel='stylesheet' href='static/css/main3.css'>
+    <link rel="stylesheet" href="static/css/mapbox-gl.css">  </head>
+<body class="  ">
+<div class="row">
+    <div class="col-xl-12 col-lg-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h6 class="card-title">请完善以下信息</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <form style="display:none;" id="iform" action="/api/work/upload.do" method="post" enctype="multipart/form-data">
+                    <input type="file" id="file" name="file" onclick="showChoose()" accept="image/*" >
+                </form>
+                <form id="app">
+                    <div class="form-group">
+                        <label>平均日增重(kg/只)</label>
+                        <input type="text" class="form-control" v-model="data" placeholder="请输入平均日增重(kg/只)" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>动物物种</label>
+                        <input type="text" class="form-control" v-model="remarks" placeholder="请输入动物物种" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>工作清单</label><br>
+                        <textarea style="width: 1000px;height: 100px" v-model="worklist" placeholder="从饲料、卫生、设备三方面输入工作清单" autocomplete="off"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>记录照片</label>
+                        <input type="text" class="form-control" v-model="photo" onclick="clickChoose()" readonly="readonly" placeholder="<点击上传照片>" autocomplete="off">
+                        <img id="img_pic"  class="mb-4" style="height:80px;width:80px;border:1px solid #cccccc;margin-top:10px;/*display: none;*/" alt="请上传照片"/>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg mt-3" @click="btnSubmit">修改信息</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Backend Bundle JavaScript -->
+<script src="static/js/backend-bundle.min.js"></script>
+<!-- Flextree Javascript-->
+<!-- Table Treeview JavaScript -->
+<script src="static/js/table-treeview.js"></script>
+<!-- Masonary Gallery Javascript -->
+<!-- Mapbox Javascript -->
+<!-- Fullcalender Javascript -->
+<script src='static/js/main.js'></script>
+<script src='static/js/main1.js'></script>
+<script src='static/js/main2.js'></script>
+<script src='static/js/main3.js'></script>
+<!-- Vectoe Map JavaScript -->
+<script src="static/js/vector-map-custom.js"></script>
+<!-- Chart Custom JavaScript -->
+<script src="static/js/chart-custom.js"></script>
+<!-- slider JavaScript -->
+<script src="static/js/slider.js"></script>
+<!-- app JavaScript -->
+<script src="static/js/app.js"></script>
+<!-- Jquery form JavaScript -->
+<script src="static/js/jquery-form.js"></script>
+<!-- Vue.js Vendors -->
+<script src="static/vendor/vue/vue.global.js"></script>
+<script src="static/vendor/vue/axios.min.js"></script>
+<!-- Custom Javascript -->
+<script>
+    //创建Vue实例
+    const app = Vue.createApp({
+        data() {
+            return {
+                wid: <%= request.getParameter("wid")%>,
+                uid: '',
+                data: '',
+                remarks:'',
+                time: '',
+                photo: '',
+                worklist: ''
+            }
+        },
+        mounted(){
+            //获取信息
+            axios.post("/api/work/get.do", {
+                wid: this.wid
+            }).then((response) => {
+                // 判断结果
+                if(JSON.parse(response.data.status)){
+                    //显示信息
+                    this.uid=response.data.data.uid.toString();
+                    this.data=response.data.data.data;
+                    this.remarks=response.data.data.remarks;
+                    this.worklist=response.data.data.worklist;
+                    this.time=response.data.data.time;
+                    this.photo=response.data.data.photo;
+                    $("#img_pic").attr("src","/img/"+response.data.data.photo);
+                }
+            }).catch((error) => {
+                // 弹出错误信息
+                window.parent.swalForError('提示','网络请求失败，请稍后重试！');
+            });
+            // 监听外部触发的自定义事件
+            window.addEventListener('doUpdateVariableValue', (event) => {
+                this.doUpdateVariableValue(event.detail.obj,event.detail.val);
+            });
+        },
+        methods: {
+            btnSubmit(){
+                //检查输入
+                if(this.uid.trim().length==0||this.data.trim().length==0|| this.remarks.trim().length==0 || this.time.trim().length==0|| this.photo.trim().length==0|| this.worklist.trim().length==0){
+                    window.parent.swalForWarning("提示", "请先完善工作信息！");
+                    return;
+                }
+                //请求后端
+                axios.post("/api/work/modify.do", {
+                    wid: this.wid,
+                    uid: this.uid,
+                    data: this.data,
+                    remarks: this.remarks,
+                    worklist: this.worklist,
+                    time: this.time,
+                    photo: this.photo
+                }).then((response) => {
+                    // 判断结果
+                    if(JSON.parse(response.data.status)){
+                        //新增成功
+                        window.parent.swalForSuccess("提示","提交工作信息成功！");
+                        //跳转修改页面
+                        window.location.reload();
+                    }else{
+                        //新增失败
+                        window.parent.swalForError("提示", "提交工作信息失败，可能是当前工作信息不存在！");
+                    }
+                }).catch((error) => {
+                    // 弹出错误信息
+                    window.parent.swalForError('提示','网络请求失败，请稍后重试！');
+                });
+            },
+            //更新变量值
+            doUpdateVariableValue(obj,val){
+                if(obj=="photo"){
+                    this.photo=val;
+                }
+            }
+        }
+    });
+    //挂载实例
+    app.mount('#app');
+    //开始选择图片
+    function clickChoose(){
+        $("#file").click();
+    }
+    //选择图片并上传
+    function showChoose() {
+        var fileTag = document.getElementById('file');
+        fileTag.onchange = function () {
+            var file = fileTag.files[0];
+            var fileReader = new FileReader();
+            fileReader.onloadend = function () {
+                if (fileReader.readyState == fileReader.DONE) {
+                    $("#iform").ajaxSubmit(function (data) {
+                        if(data=="false"){
+                            window.parent.swalForError("提示", "很抱歉,上传图片失败!");
+                        }else{
+                            $("#img_pic").attr("src","/img/"+data);
+                            $("#img_pic").css("display","block");
+                            const obj='photo';
+                            const val=data;
+                            window.dispatchEvent(new CustomEvent('doUpdateVariableValue', { detail: { obj,val } }));
+                        }
+                    });
+                }
+            };
+            fileReader.readAsDataURL(file);
+        };
+    }
+</script>
+</body>
+</html>
+
