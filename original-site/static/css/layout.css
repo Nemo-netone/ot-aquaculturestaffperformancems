@@ -1,0 +1,46 @@
+.full- page- container {
+                   width: 100%;
+                   height: 100vh; /* 使容器高度占满整个视口高度 */
+                   padding: 0;
+                   margin: 0;
+               }
+
+.row {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.col- sm-12 {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.card- body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+.table- responsive {
+             width: 100%;
+             height: 100%;
+             padding: 0;
+             margin: 0;
+         }
+
+table {
+    width: 100%;
+    height: 100%;
+}

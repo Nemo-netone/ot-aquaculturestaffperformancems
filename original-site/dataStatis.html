@@ -1,0 +1,158 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title></title>
+    <link rel="stylesheet" href="static/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="static/css/backend-1.0.2.css">
+    <link rel="stylesheet" href="static/css/all.min.css">
+    <link rel="stylesheet" href="static/css/line-awesome.min.css">
+    <link rel="stylesheet" href="static/css/remixicon.css">
+    <link rel="stylesheet" href="static/css/dripicons.css">
+    <link rel='stylesheet' href='static/css/main.css'>
+    <link rel='stylesheet' href='static/css/main1.css'>
+    <link rel='stylesheet' href='static/css/main2.css'>
+    <link rel='stylesheet' href='static/css/main3.css'>
+    <link rel="stylesheet" href="static/css/mapbox-gl.css">
+    <link rel="stylesheet" href="static/css/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="static/vendor/slideshow/css/public.css" />
+    <link rel="stylesheet" type="text/css" href="static/vendor/slideshow/css/index.css" />
+    
+</head>
+<body class="email-chimp " style="background: transparent;">
+<div class="d-grid grid-cols-1 custom-grid-media">
+    <div class="">
+        <div class="card border subs-card">
+            <div class="card-body">
+                <div class="">
+                    <div class="" style="text-align: center;">
+                        <span style="font-size: 30px;font-weight: bold;">养殖人员绩效管理系统数据分析</span>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-md-8">
+        <ul class="d-flex nav nav-pills text-center" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-primary active show" data-toggle="pill" href="#pills-1" role="tab" aria-selected="true">数据统计</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="tab-content">
+            <div id="pills-1" class="tab-pane fade active show">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-body pb-0">
+                                <div class="header-title">
+                                    <h4 class="card-title">日增重(kg/只)数据分析</h4>
+                                </div>
+                                <div id="apex-bar-contact1"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card contact-box">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <img src="static/picture/011.png" class="img-fluid avatar-60" alt="image">
+                                    <div class="content-box">
+                                        <h3 id="userNum"></h3>
+                                        <p class="mb-0">员工数量</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card contact-box">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <img src="static/picture/031.png" class="img-fluid avatar-60" alt="image">
+                                    <div class="content-box">
+                                        <h3 id="positionNum"></h3>
+                                        <p class="mb-0">岗位数量</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Backend Bundle JavaScript -->
+<script src="static/js/backend-bundle.min.js"></script>
+<!-- Flextree Javascript-->
+<!-- Table Treeview JavaScript -->
+<script src="static/js/table-treeview.js"></script>
+<!-- Masonary Gallery Javascript -->
+<!-- Mapbox Javascript -->
+<!-- Fullcalender Javascript -->
+<script src='static/js/main.js'></script>
+<script src='static/js/main1.js'></script>
+<script src='static/js/main2.js'></script>
+<script src='static/js/main3.js'></script>
+<!-- SweetAlert JavaScript -->
+<script src="static/js/sweetalert.min.js"></script>
+<!-- Vectoe Map JavaScript -->
+<script src="static/js/vector-map-custom.js"></script>
+<!-- Chart Custom JavaScript -->
+<script src="static/js/chart-custom.js"></script>
+<!-- slider JavaScript -->
+<script src="static/js/slider.js"></script>
+<!-- app JavaScript -->
+<script src="static/js/app.js"></script>
+<!--    &lt;!&ndash; Vue.js Vendors &ndash;&gt;-->
+<!--    <script src="static/vendor/vue/vue.global.js"></script>-->
+<!--    <script src="static/vendor/vue/axios.min.js"></script>-->
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        getDataInfo();
+        getUserInfo();
+        getPositionInfo();
+    });
+
+    function getDataInfo(){
+        $.getJSON("${pageContext.request.contextPath}/api/live/data.do" , {} , function(response){
+            var xdata=response.data.xdata;
+            var ydata=response.data.ydata;
+            //图表
+            var options = {
+                chart: {height: 530, type: "bar"},
+                plotOptions: {bar: {horizontal: !0}},
+                dataLabels: {enabled: !1},
+                colors: ["#393b87"],
+                series: [{data: xdata}],
+                xaxis: {categories: ydata},
+            };
+            (new ApexCharts(document.querySelector("#apex-bar-contact1"), options)).render()
+        });
+    }
+    function getUserInfo(){
+        $.getJSON("${pageContext.request.contextPath}/api/user/userNum.do" , {} , function(response){
+            $("#userNum").html(response.data);
+        });
+    }
+    function getPositionInfo(){
+        $.getJSON("${pageContext.request.contextPath}/api/position/positionNum.do" , {} , function(response){
+            $("#positionNum").html(response.data);
+        });
+    }
+
+
+</script>
+</body>
+</html>
